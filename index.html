@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Table with React</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        function EditableTable() {
+            const [data, setData] = React.useState([
+                { task: "Onboarding Call", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Google Search Console Access", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Google Analytics Access", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Website Access", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Technical Audit", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Anchor Text and Semantic Analysis", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Competitor Analysis", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Anchor Text / URL Mapping", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Google Data Studio Report + Local Reporting Suite", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Site Level Optimization", month1: "", month2: "", month3: "", month4: "" },
+                { task: "On Page Optimization", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Content Creation", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Content Publishing", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Premium Press Release", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Authority Niche Placements", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Review Management", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Index Links", month1: "", month2: "", month3: "", month4: "" },
+                { task: "Video Recap", month1: "", month2: "", month3: "", month4: "" },
+            ]);
+
+            const [submittedData, setSubmittedData] = React.useState(null);
+
+            const handleInputChange = (e, rowIndex, column) => {
+                const updatedData = data.map((row, index) => {
+                    if (index === rowIndex) {
+                        return { ...row, [column]: e.target.value };
+                    }
+                    return row;
+                });
+                setData(updatedData);
+            };
+
+            const handleSubmit = () => {
+                setSubmittedData(data);
+            };
+
+            return (
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Month 1</th>
+                                <th>Month 2</th>
+                                <th>Month 3</th>
+                                <th>Month 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    <td>{row.task}</td>
+                                    <td><input type="text" value={row.month1} onChange={(e) => handleInputChange(e, rowIndex, 'month1')} /></td>
+                                    <td><input type="text" value={row.month2} onChange={(e) => handleInputChange(e, rowIndex, 'month2')} /></td>
+                                    <td><input type="text" value={row.month3} onChange={(e) => handleInputChange(e, rowIndex, 'month3')} /></td>
+                                    <td><input type="text" value={row.month4} onChange={(e) => handleInputChange(e, rowIndex, 'month4')} /></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <button className="submit-btn" onClick={handleSubmit}>Submit</button>
+                    {submittedData && (
+                        <div className="json-output">
+                            <h3>Submitted JSON Data:</h3>
+                            <pre>{JSON.stringify(submittedData, null, 2)}</pre>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<EditableTable />, document.getElementById('root'));
+    </script>
+</body>
+</html>
